@@ -1,0 +1,42 @@
+name: 'Школа по байесовской статистике'
+navbar:
+  left:
+  - icon: fa-home
+    href: index.html
+  - text: день первый
+    menu:
+    - text: 1. Распределения
+      href: 01_distributions.html
+    - text: 2. Байесовский вывод
+      href: 02_bayesian_inference.html
+    - text: 3. Байесовский доверительный интервал
+      href: 03_bayesian_ci.html
+  - text: день второй
+    menu:
+    - text: 4. Байесовские фактор
+      href: 04_bayes_factor.html
+    - text: 5. Эмпирическая байесовская оценка
+      href: 05_empirical_bayes.html
+    - text: 6. Введение в MC и MCMC
+      href: 06_mc.html
+    - text: 7. brms
+      href: 07_brms.html
+  - text: введение в STAN от Марины Дубовой (Айсдан 2019)
+    href: https://github.com/blinodelka/Baydan_2019
+output_dir: docs
+output:
+  html_document:
+    theme: spacelab
+    highlight: pygments
+    toc: yes
+    toc_position: right
+    toc_depth: 4
+    toc_float: yes
+    smooth_scroll: no
+    code_folding: show
+    df_print: paged
+    include:
+      after_body: footer.html
+      before_body: style.css
+    lib_dir: site_libs
+    self_contained: no

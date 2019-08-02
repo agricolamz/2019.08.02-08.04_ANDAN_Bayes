@@ -1,0 +1,12 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+## Пакеты:
+
+```{r, eval=FALSE}
+pkg <- c("tidyverse", "shiny", "binom", "mosaic", "HDInterval", "markovchain")
+pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+if (length(pkg)) install.packages(pkg, dependencies = TRUE)
+```
