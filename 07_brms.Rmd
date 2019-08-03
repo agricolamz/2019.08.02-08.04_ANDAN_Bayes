@@ -8,9 +8,36 @@ editor_options:
 ```{r child = 'preamble.Rmd'}
 ```
 
+```{r}
+library(lme4)
+library(brms)
+```
+
+
 ## 0. Данные
 
 ```{r}
+avocado <- read_csv("https://raw.githubusercontent.com/agricolamz/2019.08.02-08.04_ANDAN_Bayes/master/datasets/avocado.csv")
+```
 
+Чтобы модели побыстрее сходились, я бы сократил количество городов:
+
+```{r}
+avocado %>% 
+  filter(str_detect(region, "Albany|Atlanta|Boise|Chicago|California|Denver"),
+         year = ) ->
+  avocado
+```
+
+
+## 1. Первый фит
+
+```{r, cache = TRUE}
+fit_lmer <- lmer(AveragePrice~Date + a_type + (1|region), data = avocado)
+summary(fit_lmer)
+
+fit_brms <- brm(AveragePrice~Date + a_type + (1|region), data = avocado, 
+                cores = 7, refresh = 0, silent = T)
+summary(fit_brms)
 ```
 
