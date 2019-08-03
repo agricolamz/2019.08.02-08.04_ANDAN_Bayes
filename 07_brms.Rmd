@@ -14,7 +14,7 @@ library(brms)
 ```
 
 
-## 0. Данные
+## Данные
 
 The Orthodont data frame has 108 rows and 4 columns of the change in an orthdontic measurement over time for several young subjects.
 
@@ -30,7 +30,7 @@ orth %>%
 ```
 
 
-## 1. Первый фит
+## Первый фит
 
 ```{r, cache = TRUE}
 n_cores <- 7 # parallel::detectCores() - 1
@@ -44,11 +44,18 @@ summary(fit_brms)
 plot(fit_brms)
 ```
 
-По хорошему это должно было выглядеть вот так, но `brm()` многое сделал за нас:
+Можно выбрать какой-то один параметр:
+```{r}
+plot(fit_brms, pars = "b_age", ask = F)
+pairs(fit_brms, pars = "^b")
+```
+
+
+По хорошему наш фит должен был выглядеть вот так, но `brm()` многое сделал за нас:
 
 ```{r, eval = FALSE}
 fit_brms <- brm(distance ~ age + Sex + (1|Subject), data = orth, 
-                family = gaussian(),
+                family = gaussian(), 
                 prior = prior_list, # этот список еще и надо задать!
                 cores = n_cores, refresh = 0, silent = T)
 ```
@@ -59,3 +66,40 @@ fit_brms <- brm(distance ~ age + Sex + (1|Subject), data = orth,
 as_tibble(get_prior(distance ~ age + Sex + (1|Subject), data = orth))
 ```
 
+Если модель не сошлась, то можно:
+
+* увеличить длинну цепи `iter = 5000`
+* увеличеть разрешения сэмплера `control = list(adapt_delta = .99)`
+* посмотреть [здесь](https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup)
+
+```{r}
+predict(fit_lmer, data.frame(distance = 10, age = 20, Sex = "Male", Subject = "M01"))
+predict(fit_brms, data.frame(distance = 10, age = 20, Sex = "Male", Subject = "M01"))
+```
+
+## `pp_check`
+
+The idea behind posterior predictive checking is simple: if a model is a good fit then we should be able to use it to generate data that looks a lot like the data we observed.
+
+* Posterior predictive distribution
+```{r}
+pp_check(fit_brms)
+```
+
+Сравним модели:
+```{r, cache = TRUE}
+fit_brms1 <- brm(distance ~ age + Sex + (1|Subject), data = orth, 
+                cores = n_cores, refresh = 0, silent = T,
+                save_all_pars = TRUE)
+fit_brms2 <- brm(distance ~ age + (1|Subject), data = orth, 
+                cores = n_cores, refresh = 0, silent = T,
+                save_all_pars = TRUE)
+
+bayes_factor(fit_brms1, fit_brms2)
+```
+
+## Чего читать дальше?
+
+* https://cran.r-project.org/web/packages/brms/vignettes/brms_overview.pdf
+* https://cran.r-project.org/web/packages/brms/vignettes/brms_multilevel.pdf
+* https://www.rensvandeschoot.com/tutorials/brms/
