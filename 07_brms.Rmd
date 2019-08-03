@@ -16,28 +16,46 @@ library(brms)
 
 ## 0. Данные
 
+The Orthodont data frame has 108 rows and 4 columns of the change in an orthdontic measurement over time for several young subjects.
+
 ```{r}
-avocado <- read_csv("https://raw.githubusercontent.com/agricolamz/2019.08.02-08.04_ANDAN_Bayes/master/datasets/avocado.csv")
+orth <- nlme::Orthodont
 ```
 
-Чтобы модели побыстрее сходились, я бы сократил количество городов:
-
 ```{r}
-avocado %>% 
-  filter(str_detect(region, "Albany|Atlanta|Boise|Chicago|California|Denver"),
-         year = ) ->
-  avocado
+orth %>% 
+  ggplot(aes(distance, age, color = Sex))+
+  geom_point()+
+  geom_smooth(method = 'lm', se = FALSE)
 ```
 
 
 ## 1. Первый фит
 
 ```{r, cache = TRUE}
-fit_lmer <- lmer(AveragePrice~Date + a_type + (1|region), data = avocado)
+n_cores <- 7 # parallel::detectCores() - 1
+fit_lmer <- lmer(distance ~ age + Sex + (1|Subject), data = orth)
 summary(fit_lmer)
+plot(fit_lmer)
 
-fit_brms <- brm(AveragePrice~Date + a_type + (1|region), data = avocado, 
-                cores = 7, refresh = 0, silent = T)
+fit_brms <- brm(distance ~ age + Sex + (1|Subject), data = orth, 
+                cores = n_cores, refresh = 0, silent = T)
 summary(fit_brms)
+plot(fit_brms)
+```
+
+По хорошему это должно было выглядеть вот так, но `brm()` многое сделал за нас:
+
+```{r, eval = FALSE}
+fit_brms <- brm(distance ~ age + Sex + (1|Subject), data = orth, 
+                family = gaussian(),
+                prior = prior_list, # этот список еще и надо задать!
+                cores = n_cores, refresh = 0, silent = T)
+```
+
+А какие прайоры он сделал для нашей модели?
+
+```{r}
+as_tibble(get_prior(distance ~ age + Sex + (1|Subject), data = orth))
 ```
 
