@@ -1,0 +1,16 @@
+---
+title: "7. brms"
+author: "Г. Мороз"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r child = 'preamble.Rmd'}
+```
+
+## 0. Данные
+
+```{r}
+
+```
+
