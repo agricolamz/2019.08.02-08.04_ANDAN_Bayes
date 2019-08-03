@@ -13,7 +13,7 @@
 <meta name="author" content="Г. Мороз" />
 
 
-<title>4. Эмпирическая байесовская оценка</title>
+<title>5. Эмпирическая байесовская оценка</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -510,7 +510,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">4. Эмпирическая байесовская оценка</h1>
+<h1 class="title toc-ignore">5. Эмпирическая байесовская оценка</h1>
 <h4 class="author">Г. Мороз</h4>
 
 </div>
@@ -547,7 +547,7 @@ div.tocify {
 <span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Частотность слова &quot;не&quot; на основе 305 рассказов А. Чехова&#39;</span>)</span></code></pre></div>
-<p><img src="04_empirical_bayes_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p><img src="05_empirical_bayes_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
 <p>В данном случае, данные можно подогнать под бета распределение <span class="math inline">\(Χ \sim Beta(α_0, β_0)\)</span> (это далеко не всегда так). Подгонку можно осуществлять множеством разных функций, но я воспользуюсь следующей системой уравнений:</p>
 <p><span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}\]</span> <span class="math display">\[\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}\]</span></p>
 <p>Из этой системы можно выразить <span class="math inline">\(\alpha\)</span> и <span class="math inline">\(\beta\)</span>:</p>
@@ -562,7 +562,7 @@ div.tocify {
 <pre><code>[1] 231.6328</code></pre>
 <p>Посмотрим, насколько хорошо, получившееся распределение подходит к нашим данным:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="dt">length =</span> <span class="dv">1000</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>estimation &lt;-<span class="st"> </span><span class="kw">data_frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2"></a>estimation &lt;-<span class="st"> </span><span class="kw">tibble</span>(</span>
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="dt">x =</span> x,</span>
 <span id="cb8-4"><a href="#cb8-4"></a>  <span class="dt">density =</span> <span class="kw">c</span>(<span class="kw">dbeta</span>(x, <span class="dt">shape1 =</span> alpha0, <span class="dt">shape2 =</span> beta0)))</span>
 <span id="cb8-5"><a href="#cb8-5"></a></span>
@@ -573,7 +573,7 @@ div.tocify {
 <span id="cb8-10"><a href="#cb8-10"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
 <span id="cb8-11"><a href="#cb8-11"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Частотность слова &quot;не&quot; на основе 305 рассказов А. Чехова&#39;</span>,</span>
 <span id="cb8-12"><a href="#cb8-12"></a>       <span class="dt">subtitle =</span> <span class="st">&quot;черной линией показано бета распределение с α = 5.283022 и β = 231.6328&quot;</span>)</span></code></pre></div>
-<p><img src="04_empirical_bayes_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p><img src="05_empirical_bayes_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
 <p>Полученное распределение можно использовать как априорное распределение для апдейта значений из каждого рассказа. Этот трюк и называется эмпирическая байесовская оценка.</p>
 <div id="section" class="section level3">
 <h3>1.1</h3>
@@ -605,7 +605,7 @@ function validateFormOne() {
 
 <br><br><br>
 <p><center> &copy; Г. Мороз 2019 с помощью RMarkdown. Исходный код на 
-<a href="https://github.com/agricolamz/2019_BayesDan_winter"> GitHub <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"></a></center> </p>
+<a href="https://github.com/agricolamz/2019_BayesDan_winter"> GitHub </a></center> </p>
 
 
 </div>

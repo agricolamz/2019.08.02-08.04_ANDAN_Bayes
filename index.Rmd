@@ -6,7 +6,7 @@ editor_options:
 ## Пакеты:
 
 ```{r, eval=FALSE}
-pkg <- c("tidyverse", "shiny", "binom", "mosaic", "HDInterval", "markovchain")
+pkg <- c("tidyverse", "shiny", "binom", "mosaic", "HDInterval", "markovchain", "brms")
 pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
 if (length(pkg)) install.packages(pkg, dependencies = TRUE)
 ```

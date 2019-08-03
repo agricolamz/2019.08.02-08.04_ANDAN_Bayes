@@ -104,7 +104,7 @@ weather %>%
 
 Визуализируем матрицу последовательных переходов разных погодных событий:
 ```{r}
-data_frame(bigramma_1 = weather$events, 
+tibble(bigramma_1 = weather$events, 
            bigramma_2 = lead(weather$events, 1)) %>% 
   table() %>% 
   prop.table() %>% 
@@ -197,7 +197,7 @@ fitzgerald %>%
 ### 4.2
 Визуализируйте матрицу последовательных переходов частей речи:
 ```{r, echo = FALSE}
-data_frame(bigramma_1 = fitzgerald$pos, 
+tibble(bigramma_1 = fitzgerald$pos, 
            bigramma_2 = lead(fitzgerald$pos, 1)) %>% 
   table() %>% 
   prop.table() %>% 

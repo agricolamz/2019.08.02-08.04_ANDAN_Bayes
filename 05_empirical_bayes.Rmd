@@ -1,5 +1,5 @@
 ---
-title: "4. Эмпирическая байесовская оценка"
+title: "5. Эмпирическая байесовская оценка"
 author: "Г. Мороз"
 editor_options: 
   chunk_output_type: console
@@ -61,7 +61,7 @@ beta0
 Посмотрим, насколько хорошо, получившееся распределение подходит к нашим данным:
 ```{r}
 x <- seq(0, 0.1, length = 1000)
-estimation <- data_frame(
+estimation <- tibble(
   x = x,
   density = c(dbeta(x, shape1 = alpha0, shape2 = beta0)))
 

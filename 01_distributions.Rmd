@@ -20,7 +20,7 @@ editor_options:
 Рассмотрим все это на примере нормального распределения.
 
 ```{r}
-data_frame(x = 1:100,
+tibble(x = 1:100,
            PDF = dnorm(x = x, mean = 50, sd = 10)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -30,7 +30,7 @@ data_frame(x = 1:100,
 Какое количество данных лежит в промежутке от 0 до 30?
 ```{r}
 pnorm(30, mean = 50, sd = 10)
-data_frame(x = 1:100,
+tibble(x = 1:100,
            CDF = pnorm(x, mean = 50, sd = 10)) %>% 
   ggplot(aes(x, CDF))+
   geom_point()+
@@ -40,7 +40,7 @@ data_frame(x = 1:100,
 Какое значение соответствует 40-ой квантили?
 ```{r}
 qnorm(0.4, mean = 50, sd = 10)
-data_frame(quantiles = seq(0, 1, by = 0.01),
+tibble(quantiles = seq(0, 1, by = 0.01),
            value = qnorm(quantiles, mean = 50, sd = 10)) %>% 
   ggplot(aes(quantiles, value))+
   geom_point()+
@@ -49,7 +49,7 @@ data_frame(quantiles = seq(0, 1, by = 0.01),
 
 <strike> Siri, Алиса, </strike> Дорогой R, сгенерируй мне 100 наблюдений из нормального распределения со средним 50 и стандартным отклонением 10.
 ```{r}
-data_frame(sample = rnorm(100, mean = 50, sd = 10)) %>% 
+tibble(sample = rnorm(100, mean = 50, sd = 10)) %>% 
   ggplot(aes(sample))+
   geom_histogram()+
   labs(title = "выборка нормально распределенных чисел (μ = 50, sd = 10)")
@@ -92,7 +92,7 @@ $$P(k | n, p) = \frac{n!}{k!(n-k)!} \times p^k \times (1-p)^{n-k} =  {n \choose 
 $$ 0 \leq p \leq 1; n, k > 0$$
 
 ```{r}
-data_frame(x = 0:50,
+tibble(x = 0:50,
            density = dbinom(x = x, size = 50, prob = 0.16)) %>% 
   ggplot(aes(x, density))+
   geom_point()+
@@ -108,7 +108,7 @@ $$P(k | p) = (1-p)^k\times p$$
 $$k\in\{1, 2, \dots\}$$
 
 ```{r}
-data_frame(x = 0:50,
+tibble(x = 0:50,
            density = dgeom(x = x, prob = 0.16)) %>% 
   ggplot(aes(x, density))+
   geom_point()+
@@ -124,7 +124,7 @@ $$P(Y = k) = \frac{\lambda^k}{k!} \times e^{-\lambda}$$
 $$k\in\{1, 2, \dots\}, \lambda \in \{0, -\infty\}$$
 
 ```{r}
-data_frame(x = 0:50,
+tibble(x = 0:50,
            density = dpois(x = x, lambda =  5)) %>% 
   ggplot(aes(x, density))+
   geom_point()+
@@ -199,7 +199,7 @@ $$P(x) = \frac{1}{\sigma\sqrt{2\pi}}\times e^{-\frac{\left(x-\mu\right)^2}{2\sig
 $$\mu \in \mathbb{R}; \sigma^2 > 0$$
 
 ```{r}
-data_frame(x = 1:100,
+tibble(x = 1:100,
            PDF = dnorm(x = x, mean = 50, sd = 10)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -214,7 +214,7 @@ $$P(x) = \frac{1}{\sqrt{x\sigma2\pi}}\times e^{-\frac{\left(\ln(x)-\mu\right)^2}
 $$\mu \in \mathbb{R}; \sigma^2 > 0$$
 
 ```{r}
-data_frame(x = 1:100,
+tibble(x = 1:100,
            PDF = dlnorm(x = x, meanlog = 3, sdlog = 0.5)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -228,7 +228,7 @@ $$P(x)= \lambda \times e^{-\lambda x}$$
 $$\lambda > 0$$
 
 ```{r}
-data_frame(x = 1:20,
+tibble(x = 1:20,
            PDF = dexp(x = x, rate = 0.5)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -239,7 +239,7 @@ data_frame(x = 1:20,
 ### 3.4 Распределение Коши
 
 ```{r}
-data_frame(x = seq(-8, 8, 0.1),
+tibble(x = seq(-8, 8, 0.1),
            PDF = dcauchy(x = x, location = 1, scale = 1)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -251,7 +251,7 @@ data_frame(x = seq(-8, 8, 0.1),
 ### 3.5 Унимодальное распределение
 
 ```{r}
-data_frame(x = 1:20,
+tibble(x = 1:20,
            PDF = dunif(x = x, min = 5, max = 10)) %>% 
   ggplot(aes(x, PDF))+
   geom_point()+
@@ -274,7 +274,7 @@ $$P(θ|Data) = \frac{P(Data|θ)\times P(θ)}{P(Data)}$$
 Мы вернемся к формуле Байеса и байесовскому подходу в следующих лекциях, а сейчас важно обсудить распределения априорной и апостериорной вероятностей. Оба эти распределения --- распределения вероятностей. 
 
 ```{r, echo=FALSE}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dchisq(x, 22, 6))+
   labs(title = "PDF P(θ)", x = "θ", y = "P(θ)")+
@@ -296,7 +296,7 @@ $$Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α
 
 
 ```{r}
-data_frame(x = seq(0, 1, length.out = 51),
+tibble(x = seq(0, 1, length.out = 51),
            density = dbeta(x = x, shape1 = 8, shape2 = 42)) %>% 
   ggplot(aes(x, density))+
   geom_point()+
@@ -326,7 +326,7 @@ $$\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}$$
 Предположим что распределение количества согласных в языках мира можно описать нормальным распределением со средним 22 и стандартным отклонением 6:
 
 ```{r, echo=FALSE}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dnorm(x, 22, 6))+
   labs(title = "Количество согласных в языках мира (фэйк)")
@@ -335,7 +335,7 @@ data_frame(x = 0:80) %>%
 Тогда вероятность того, что в выбранных произвольно языках окажется от 23 до 32 согласных, равна интегралу нормального распределения в указанном промежутке:
 
 ```{r, echo = FALSE}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dnorm(x, 22, 6))+
   stat_function(fun = function(x) dnorm(x, 22, 6), 
@@ -354,7 +354,7 @@ pnorm(32, mean = 22, sd = 6) - pnorm(23, mean = 22, sd = 6)
 Когда мы говорим про функцию правдоподобия, мы нашли еще один язык в котором оказалось 33 согласных, и нас интересует, насколько правдоподобна функция нормального распределения со средним 22 и стандартным отклонением 6 при значении переменной 33. Это значение равно функции плотности:
 
 ```{r, echo = FALSE}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dnorm(x, 22, 6))+
   geom_segment(aes(x = 33, xend = 33, y = 0, yend = dnorm(33, 22, 6)), color = "red")+
@@ -374,7 +374,7 @@ dnorm(33, 22, 6)
 В результате мы можем пострить график, на котором будет правдоподобие моделей с разными средними и фиксированным стандартным отклонением.
 
 ```{r}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dnorm(33, x, 6))+
   scale_x_continuous(breaks = c(0:4*20, 33))+
@@ -386,12 +386,12 @@ data_frame(x = 0:80) %>%
 А что если у нас не одно наблюдение, а несколько? Например, мы наблюдаем языки с 33 и 26 согласными? События независимы друг от друга, значит, мы можем перемножить получаемые вероятности.
 
 ```{r}
-data_frame(x = 0:80) %>% 
+tibble(x = 0:80) %>% 
   ggplot(aes(x)) +
   stat_function(fun = function(x) dnorm(33, x, 6)*dnorm(26, x, 6))+
   scale_x_continuous(breaks = c(0:4*20, 33, 26))+
   labs(x = TeX("$\\mu$"),
-       y = TeX("$L(N(\\mu,\\, \\sigma^{2}=6)|x = 33))$"),
+       y = TeX("$L(N(\\mu,\\, \\sigma^{2}=6)|x = {33, 26}))$"),
        title = "Насколько правдоподобны модели с разными μ, если мы наблюдаем значения 26 и 33?")
 ```
 
@@ -404,7 +404,7 @@ data_frame(x = 0:80) %>%
 
 ### 5.1
 
-Посчитайте значение правдоподобия модели $\mathcal{N}(\mu = 910,\, \sigma^{2}=150)$ для встроенного датасета `Nile`.
+Посчитайте значение правдоподобия модели $\mathcal{N}(\mu = 910,\, \sigma=150)$ для встроенного датасета `Nile`.
 
 ```{r, include=FALSE}
 prod(dnorm(Nile, 910, 150))
